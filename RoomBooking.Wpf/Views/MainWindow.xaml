@@ -1,0 +1,49 @@
+﻿<controls:MetroWindow 
+        x:Class="RoomBooking.Wpf.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Height="400" Width="400"
+        MinHeight="300" MinWidth="300"
+        Title="RoomBooking">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Room: "/>
+        <ComboBox Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Path=Rooms}" SelectedValue="Id" SelectedItem="{Binding Path=SelectedRoom, Mode=TwoWay}" DisplayMemberPath="RoomNumber">
+            
+        </ComboBox>
+        <DataGrid CanUserAddRows="false" Grid.Column="1" Grid.Row="1" AutoGenerateColumns="false" IsReadOnly="true" ItemsSource="{Binding Path=SelectedRoom.Bookings}" SelectedItem="{Binding SelectedBooking}" Grid.ColumnSpan="3">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="From" Binding="{Binding Path=From, StringFormat=HH:mm}" IsReadOnly="true"/>
+                <DataGridTextColumn Header="To" Binding="{Binding Path=To, StringFormat=HH:mm}" IsReadOnly="true"/>
+                <DataGridTextColumn Header="Customer" Binding="{Binding Path=Customer.FullName}" IsReadOnly="true"/>
+            </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding CmdEditCustomer}"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <Button Grid.Row="2" Grid.ColumnSpan="3" Margin="10,10,10,10" Command="{Binding CmdEditCustomer}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding SelectedBooking.Customer.FullName}"/>
+                    <TextBlock Text=" bearbeiten"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+</controls:MetroWindow>
+
+
+
